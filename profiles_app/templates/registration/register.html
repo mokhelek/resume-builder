@@ -1,0 +1,23 @@
+{% extends "main_app/base.html" %}
+{% load bootstrap5 %}
+{% block content %}
+
+<br>
+<div class="container"> 
+    <form method="post" action="{% url 'profiles_app:register' %}">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        
+        {% buttons %}
+        <button class="btn btn-outline-success btn-sm" name="submit">Register</button>
+        {% endbuttons %}
+     
+    </form>
+</div>
+ 
+{% endblock content %}
+
+<!--
+
+       <input type="hidden" name="next" value="{% url 'blogyapp:index' %}" />
+-->

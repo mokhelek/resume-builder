@@ -1,0 +1,22 @@
+{% extends "main_app/base.html" %}
+{% load bootstrap5 %}
+
+{% block content %}
+    
+    <br>
+    <div class="container">
+        <h2>Log in to your account.</h2>
+        <div style="width:60%">  
+            <form method="post" action="{% url 'profiles_app:login' %}" class="form">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                {% buttons %}
+                <button name="submit" class="btn btn-outline-primary">Log in</button>
+                {% endbuttons %}
+                <input type="hidden" name="next" 
+                value="{% url 'main_app:index' %}" />
+            </form>
+        </div>
+    </div>
+
+{% endblock  %}

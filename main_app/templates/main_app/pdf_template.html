@@ -1,0 +1,145 @@
+<head>
+	<style>
+		@page{
+			size: a4 portrait;
+		}
+	</style>
+</head>
+
+<body style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+	
+<div style="width: 90% !important;">
+
+<table>
+	<tr>
+	
+		<td style="width:30%;background-color: rgb(2, 2, 114);">
+			<br>
+		
+			<center>
+				<img style="border-radius: 10px;" height="160" width="150" class="img-fluid" src="C:\Users\Mokhele Katleho\Desktop\Resume_Builder\Resume_Builder\static\images\{{profile.avatar}}" alt="no pic">
+			</center>
+		 <div style="margin-left: 12px;">
+			
+
+			<h1 style="margin-bottom: 0cm;font-size: 1.8rem;color:white;" >  {{profile.first_name}}  {{profile.last_name}} </h1> 
+			<h3 style="margin-top: 0cm;color:rgb(202, 199, 255);font-size: 1.2rem;">{{profile.job_title}}  </h3>
+			
+		</div>
+			<div style="background-color: rgb(0, 0, 71); height: 25px;">
+				<h2 style="padding-top: 6px;padding-left: 12px;color:white;"> <strong> Personal Information  </strong> </h2>
+			</div>
+			<div style="margin-left: 12px;">
+				<h6 style="color:rgb(202, 199, 255);margin-bottom: 0cm;margin-top: 0cm;font-size: 1.1rem;font-weight: 700;"><b>Email</b></h6>
+				<h6 style="margin-top: 0cm;color:rgb(255, 255, 255);margin-bottom: 0cm;"> {{profile.email}} </h6>
+
+				<h6 style="color:rgb(202, 199, 255);margin-bottom: 0cm;margin-top: 0cm;font-size: 1.1rem;font-weight: 700;"><strong>Location</strong></h6>
+				<h6 style="margin-top: 0cm;color:white;margin-bottom: 0cm;">  {{profile.location }}  </h6>
+
+				<h6 style="color:rgb(202, 199, 255);margin-bottom: 0cm;margin-top: 0cm;font-size: 1.1rem;"><strong>Linkedin</strong></h6>
+				<h6 style="margin-top: 0cm;color:white;margin-bottom: 0cm;">  {{profile.linkedin_link}}  </h6>				
+			</div>
+
+			<div style="background-color: rgb(0, 0, 71); height: 25px;">
+				<h2 style="padding-top: 6px;padding-left: 12px;color:white;"> <strong> Skills </strong> </h2>
+			</div>
+
+			<div style="margin-left: 12px;">
+				<ul>
+					{% for skill in skills %}
+						<li style="margin-top: 0cm;color:white;margin-bottom: 0cm; ">  {{skill.skill_name}}  </li>	
+						
+						{% empty %}
+						no skills yet
+					{% endfor %}
+				</ul>
+				<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+			</div>
+			
+
+		</td>
+		<td style="width:70%; margin-bottom: 0cm;">
+		
+			<div style="margin-left: 30px;margin-bottom: 0cm;margin-top: 0cm;">
+				<br>
+				<p style="margin-right: 20px;font-size: 1.3rem;">
+					{{profile.bio}}
+				</p>
+				
+			<h1 style="margin-bottom: 0cm;font-size: 1.9rem;"> <strong>Experience </strong></h1>
+
+			<h6 style="color: rgb(163, 163, 163);margin-top: 0;margin-bottom: 0cm;">  ___________________________________________________________________________________________</h6>
+
+			{% for experience in experiences %}
+				<table>
+					<tr>
+						<td style="width:16%">
+							<h6 style="margin-bottom: 0cm;font-size: 1rem;margin-top: 0cm;color:rgb(85, 85, 85);"> Aug 2026 -</h6>
+							<h6 style="margin-top: 0cm;font-size: 1rem;color:rgb(85, 85, 85);"> Sep 2030 </h6>
+							<br>
+							<br>
+						</td>
+						<td style="width:80%">
+							<h2 style="margin-bottom: 0cm;font-size: 1.4rem;"> <strong> {{experience.job_title}} </strong>  </h2>  
+							<h4 style="margin-top: 0cm;font-size: 1.1rem;color:rgb(103, 103, 103);" >{{experience.company_name}}</h4>
+							<p style="font-size: 1.1 rem;">{{experience.job_description}}</p>
+						</td>
+					</tr>
+				</table> 
+				<br>
+			{% endfor %}
+
+					<h1 style="margin-bottom: 0cm;font-size: 1.8rem;"> <strong>Education </strong></h1>
+			<h6 style="color: rgb(163, 163, 163);margin-top: 0;margin-bottom: 0cm;">  ___________________________________________________________________________________________</h6>
+
+						{% for education in educations %}
+						
+						<table>
+							<tr>
+								<td style="width:16%">
+									<h6 style="margin-bottom: 0cm;font-size: 0.85rem;margin-top: 0cm;color:rgb(85, 85, 85);"> Aug 2026 -</h6>
+									<h6 style="margin-top: 0cm;font-size: 0.85rem;color:rgb(85, 85, 85);"> Sep 2030 </h6>
+									<br>
+									<br>
+								</td>
+								<td style="width:80%">
+									<h2 style="margin-bottom: 0cm;font-size: 1.4rem;"> <strong> {{education.institution_name}} </strong>  </h2>  
+									<h4 style="margin-top: 0cm;font-size: 1.1rem;color:rgb(103, 103, 103);" >{{education.qualification_name}}</h4>
+									<p style="font-size: 1.1 rem;">{{education.education_description}}</p>
+								</td>
+							</tr>
+						</table>
+						<br>
+					
+						{% endfor %}
+							
+				
+						<h1 style="margin-bottom: 0cm;font-size: 1.8rem;"> <strong> Languages </strong></h1>
+					<h6 style="color: rgb(163, 163, 163);margin-top: 0;margin-bottom: 0cm;">  ___________________________________________________________________________________________</h6>
+
+					<ul>
+						{% for language in languages %}
+							
+								<h3> {{language.language_name}} </h3>
+							
+							{% empty %}
+							no languages yet
+						{% endfor %}
+					</ul>
+						
+			
+				</div>
+		</td>
+	</tr>
+</table>
+
+
+</div>
+
+</body>
+
+
+<!--
+	<img height="120" width="120" class="img-fluid" src="C:\Users\Mokhele Katleho\Desktop\Resume_Builder\Resume_Builder\static\images\{{profile.avatar}}" alt="no pic">
+
+-->
