@@ -7,7 +7,11 @@ from xhtml2pdf import pisa
 from django.contrib.staticfiles import finders
 
 from profiles_app.models import *
+from profiles_app.forms import *
 
+def landing_page(request):
+    context = {}
+    return render(request , "main_app/landing_page.html", context)
 
 def index(request):
     profile = Profile.objects.get(user=request.user)
@@ -15,12 +19,18 @@ def index(request):
     educations = Education.objects.filter(profile = profile)
     skills = Skills.objects.filter(profile = profile)
     languages = Languages.objects.filter(profile = profile)
+    
+    personal_info_form = ProfileForm(instance = profile )
+    experiences_form = ExperiencesForm()
+ 
     context = {
         "profile":profile,
         "experiences":experiences,
         "educations":educations,
         "skills":skills,
         "languages":languages,
+        "personal_info_form":personal_info_form,
+        "experiences_form":experiences_form,
         }
     return render(request, 'main_app/index.html', context)
 
@@ -88,4 +98,7 @@ def render_pdf_view(request , profile_id):
        return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
 
+def personalInfoForm(request):
+    
+    return render(request)
 
