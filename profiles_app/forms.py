@@ -1,3 +1,4 @@
+from logging import PlaceHolder
 from django import forms 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -27,4 +28,28 @@ class ExperiencesForm(ModelForm):
         model = Experience
         fields = '__all__'
         exclude = ['profile']
+        
+class EducationForm(ModelForm):
+    class Meta:
+        model = Education
+        fields = '__all__'
+        exclude = ['profile']
+        
+class SkillForm(ModelForm):
+    skill_name = forms.CharField(widget=forms.TextInput , label='', help_text= "add skill" )        
+
+    class Meta:
+        model = Skills
+        fields = '__all__'
+        exclude = ['profile']
+        
+        
+class LanguagesForm(ModelForm):
+    language_name = forms.CharField(widget=forms.TextInput , label='', help_text= "add skill" )        
+
+    class Meta:
+        model = Languages
+        fields = '__all__'
+        exclude = ['profile']
+        
     

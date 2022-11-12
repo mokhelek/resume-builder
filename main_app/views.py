@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 import os
 from django.conf import settings
 from django.http import HttpResponse
@@ -15,13 +15,21 @@ def landing_page(request):
 
 def index(request):
     profile = Profile.objects.get(user=request.user)
-    experiences = Experience.objects.filter(profile = profile)
-    educations = Education.objects.filter(profile = profile)
-    skills = Skills.objects.filter(profile = profile)
-    languages = Languages.objects.filter(profile = profile)
+    experiences = Experience.objects.filter(profile = profile)[::-1]
+    educations = Education.objects.filter(profile = profile)[::-1]
+    skills = Skills.objects.filter(profile = profile)[::-1]
+    languages = Languages.objects.filter(profile = profile)[::-1]
+    add_skill_form = SkillForm()   
+    add_language_form = LanguagesForm()  
     
-    personal_info_form = ProfileForm(instance = profile )
-    experiences_form = ExperiencesForm()
+    if request.method != 'POST':
+        personal_info_form = ProfileForm(instance = profile )
+        add_skill_form = SkillForm()
+    else:
+        personal_info_form = ProfileForm( request.POST, request.FILES , instance = profile )  
+        if personal_info_form.is_valid():
+            personal_info_form.save() 
+            return redirect("main_app:index")
  
     context = {
         "profile":profile,
@@ -30,9 +38,141 @@ def index(request):
         "skills":skills,
         "languages":languages,
         "personal_info_form":personal_info_form,
-        "experiences_form":experiences_form,
+        "add_skill_form":add_skill_form ,
+        "add_language_form":add_language_form,
+
         }
     return render(request, 'main_app/index.html', context)
+
+def edit_experience(request, experience_id ):
+    experience = Experience.objects.get(id = experience_id)
+    if request.method != 'POST':
+        experience_form = ExperiencesForm(instance=experience)
+    else:
+        experience_form = ExperiencesForm(instance=experience,data=request.POST)
+        if experience_form.is_valid(): 
+            experience_form.save()
+            return redirect("main_app:index")
+        
+    context = {
+        "experience":experience,
+        "experience_form":experience_form,
+        }
+    return render(request, 'main_app/experience.html', context)
+
+def add_experience(request ):
+    logged_in_user = Profile.objects.get(user = request.user)
+    if request.method != 'POST':
+        add_experience_form = ExperiencesForm()
+    else:
+        add_experience_form = ExperiencesForm(request.POST, request.FILES )
+        if add_experience_form.is_valid():
+            new_experience = add_experience_form.save(commit=False)
+            new_experience.profile = logged_in_user
+            new_experience.save()
+            add_experience_form.save()
+            return redirect("main_app:index")
+        
+    context = {
+        "add_experience_form":add_experience_form,
+        }
+    return render(request, 'main_app/add_experience.html', context)
+
+def add_education(request ):
+    logged_in_user = Profile.objects.get(user = request.user)
+    if request.method != 'POST':
+        add_education_form = EducationForm()
+    else:
+        add_education_form = EducationForm(request.POST, request.FILES )
+        if add_education_form.is_valid():
+            new_education = add_education_form.save(commit=False)
+            new_education.profile = logged_in_user
+            new_education.save()
+            add_education_form.save()
+            return redirect("main_app:index")
+        
+    context = {
+        "add_education_form":add_education_form ,
+        }
+    return render(request, 'main_app/add_education.html', context)
+
+def add_skill(request):
+    logged_in_user = Profile.objects.get(user = request.user)
+    if request.method != 'POST':
+        add_skill_form = SkillForm()
+    else:
+        add_skill_form = SkillForm(request.POST, request.FILES )
+        if add_skill_form.is_valid():
+            new_skill = add_skill_form.save(commit=False)
+            new_skill.profile = logged_in_user
+            new_skill.save()
+            add_skill_form.save()
+            return redirect("main_app:index")
+        
+    context = {
+        "add_skill_form":add_skill_form ,
+        }
+    return render(request, 'main_app/add_education.html', context)
+
+def add_language(request):
+    logged_in_user = Profile.objects.get(user = request.user)
+    if request.method != 'POST':
+        add_language_form = LanguagesForm()
+    else:
+        add_language_form = LanguagesForm(request.POST, request.FILES )
+        if add_language_form.is_valid():
+            new_language = add_language_form.save(commit=False)
+            new_language.profile = logged_in_user
+            new_language.save()
+            add_language_form.save()
+            return redirect("main_app:index")
+        
+    context = {
+        "add_language_form":add_language_form ,
+        }
+    return render(request, 'main_app/add_education.html', context)
+
+def delete_experience(request, experience_id ):
+    experience = Experience.objects.get(id = experience_id)
+    experience.delete()
+    return redirect("main_app:index")
+
+
+
+def edit_education(request, education_id ):
+    education = Education.objects.get(id = education_id)
+    if request.method != 'POST':
+        education_form = EducationForm(instance=education)
+    else:
+        education_form = EducationForm(instance=education,data=request.POST)
+        if education_form.is_valid(): 
+            education_form.save()
+            return redirect("main_app:index")
+        
+    context = {
+        "education":education,
+        "education_form":education_form,
+        }
+    return render(request, 'main_app/education.html', context)
+
+def delete_education(request, education_id ):
+    education = Education.objects.get(id = education_id)
+    education.delete()
+    return redirect("main_app:index")
+
+def delete_skill(request, skill_id ):
+    skill = Skills.objects.get(id = skill_id)
+    skill.delete()
+    return redirect("main_app:index")
+
+def delete_language(request, language_id ):
+    languages = Languages.objects.get(id = language_id)
+    languages.delete()
+    return redirect("main_app:index")
+
+
+
+
 
 
 def link_callback(uri, rel):
